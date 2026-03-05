@@ -1,0 +1,681 @@
+:root {
+  --bg-color: #050505;
+  --text-color: #e0e0e0;
+  --accent-color: #ff00ff; /* Neon Magenta */
+  --highlight-color: #bd00ff; /* Deep Lilac */
+  --dim-color: #4a004a;
+  --font-stack: "Courier New", Courier, monospace;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-stack);
+  overflow: hidden; /* Prevent scrolling, let canvas fill */
+  animation: bg-pulse 15s infinite alternate;
+}
+
+@keyframes bg-pulse {
+  0% { background-color: #050005; }
+  50% { background-color: #0a000a; }
+  100% { background-color: #030005; }
+}
+
+/* Background Noise / Grain Overlay */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Scanline Overlay - Animated */
+body::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(189, 0, 255, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+  animation: scanline-move 10s linear infinite;
+}
+
+@keyframes scanline-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+/* 3D Canvas Container */
+#glitch-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.6; /* Slight transparency to mix with background */
+  pointer-events: none;
+}
+
+/* Interface Overlay */
+.interface-overlay {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  box-sizing: border-box;
+  pointer-events: none; /* Let clicks pass through to canvas if needed, but text selectable */
+}
+
+/* Interactive elements should catch events */
+.interface-overlay * {
+  pointer-events: auto;
+}
+
+/* Factory Overlay UI */
+.core-systems {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 25;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding-left: 5%;
+  padding-bottom: 8%; /* Adjust to not overlap with footer */
+}
+
+.terminal-window {
+  width: 600px;
+  max-width: 90vw;
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid var(--text-color);
+  box-shadow: 4px 4px 0px rgba(0, 255, 0, 0.2); /* Contrast with purple chaos */
+  border-radius: 2px;
+  overflow: hidden;
+  pointer-events: auto; /* Allow interaction with terminal */
+  backdrop-filter: blur(5px);
+}
+
+.terminal-header {
+  background: var(--text-color);
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space out items */
+  border-bottom: 1px solid var(--bg-color);
+}
+
+.terminal-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.control-box {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--bg-color);
+  background: transparent;
+  cursor: pointer;
+}
+
+.control-box:hover {
+  background: var(--bg-color);
+}
+/* Last box filled (close button style) */
+.control-box:last-child {
+  background: var(--bg-color);
+}
+
+.terminal-title {
+  font-family: 'Courier New', monospace;
+  font-size: 0.6rem;
+  font-weight: bold;
+  color: var(--bg-color);
+  letter-spacing: normal;
+  text-transform: uppercase;
+  flex: 1; /* Push controls right */
+}
+
+.terminal-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.control-box {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--bg-color);
+  background: transparent;
+  cursor: pointer;
+}
+
+.control-box:hover {
+  background: var(--bg-color);
+}
+.control-box:last-child {
+  background: var(--bg-color); /* filled for close */
+}
+
+.terminal-body {
+  padding: 15px;
+  color: #00ff00; /* Classic Terminal Green for professional stability */
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.terminal-body p {
+  margin: 0;
+  text-transform: none; /* Keep terminal lowercase style */
+  letter-spacing: normal;
+  display: flex;
+  align-items: center;
+}
+
+.prompt {
+  color: #ef00ef; /* Purple prompt to link back to brand */
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.output {
+  color: #e0e0e0;
+  opacity: 0.9;
+  padding-left: 15px;
+  margin-bottom: 8px !important;
+}
+
+.blink-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: #00ff00;
+  animation: blink-anim 1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+.factory-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--accent-color);
+  background: var(--text-color);
+}
+
+.top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+.top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+.bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+.bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+
+.side-text {
+  font-size: 0.6rem;
+  color: var(--text-color);
+  opacity: 0.7;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 300px;
+  text-align: center;
+}
+
+.side-text.left {
+  left: -120px;
+  transform: rotate(-90deg);
+  border-bottom: 1px dashed var(--highlight-color);
+}
+
+.side-text.right {
+  right: -120px;
+  transform: rotate(90deg);
+  border-bottom: 1px dashed var(--highlight-color);
+}
+
+/* Horizontal scan line */
+.scan-line {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 0, 255, 0.3);
+  z-index: 5;
+}
+
+/* New Elements */
+.reg-mark {
+  vertical-align: super;
+  font-size: 0.5em;
+  color: var(--accent-color);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  font-size: 0.6rem;
+  opacity: 0.6;
+  margin-top: 0.5rem;
+  border-top: 1px dashed var(--text-color);
+  padding-top: 5px;
+}
+
+.big-number {
+  font-size: 6rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent-color);
+  line-height: 0.8;
+  opacity: 0.8;
+  margin-bottom: -1rem;
+  text-align: right;
+  mix-blend-mode: color-dodge;
+}
+
+.droid-badge {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--highlight-color);
+  color: var(--bg-color);
+  padding: 0.5rem;
+  margin-top: 1rem;
+  font-weight: bold;
+  border: 1px solid var(--text-color);
+  font-size: 0.8rem;
+}
+
+.droid-badge .icon {
+  font-size: 1.5rem;
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin { 
+  100% { transform: rotate(360deg); } 
+}
+
+/* Typography Overrides */
+h1, h2, h3, p {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hero {
+  border: 1px solid var(--text-color);
+  padding: 1.5rem;
+  background: rgba(5, 0, 5, 0.85); /* Darker purple tint */
+  max-width: 600px;
+  position: relative;
+  box-shadow: 10px 10px 0px rgba(189, 0, 255, 0.2);
+}
+
+
+.glitch-text {
+  font-size: 3rem;
+  font-weight: bold;
+  position: relative;
+  color: var(--text-color);
+  mix-blend-mode: exclusion;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-color);
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -1px 0 var(--accent-color);
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -1px 0 var(--highlight-color);
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim-2 2s infinite linear alternate-reverse;
+}
+
+::selection {
+  background: var(--accent-color);
+  color: var(--bg-color);
+}
+
+/* Content Block Layout */
+.content-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+/* Subtitle */
+.subtitle {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  border-top: 1px solid var(--accent-color);
+  padding-top: 0.5rem;
+}
+
+/* Manifesto Section */
+.manifesto {
+  align-self: flex-end;
+  text-align: right;
+  border-left: 5px solid var(--accent-color);
+  padding-left: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  margin-right: 10%;
+}
+
+.scanline-text {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+}
+
+.blink {
+  animation: blink-anim 1s step-end infinite;
+}
+
+.quote {
+  font-size: 1.2rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.cursed-text {
+  font-size: 1rem;
+  color: var(--highlight-color);
+  opacity: 0.8;
+  filter: blur(0.5px);
+}
+
+.glitch-intense {
+  animation: skew-anim 3s infinite;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--text-color);
+  padding-top: 1rem;
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.marquee span {
+  display: inline-block;
+  animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translate(100%, 0); }
+  100% { transform: translate(-100%, 0); }
+}
+
+/* Keyframes */
+@keyframes glitch-anim-1 {
+  0% { clip: rect(10px, 9999px, 30px, 0); }
+  20% { clip: rect(80px, 9999px, 100px, 0); }
+  40% { clip: rect(40px, 9999px, 60px, 0); }
+  60% { clip: rect(120px, 9999px, 140px, 0); }
+  80% { clip: rect(20px, 9999px, 80px, 0); }
+  100% { clip: rect(90px, 9999px, 110px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip: rect(60px, 9999px, 80px, 0); }
+  20% { clip: rect(10px, 9999px, 40px, 0); }
+  40% { clip: rect(90px, 9999px, 120px, 0); }
+  60% { clip: rect(30px, 9999px, 50px, 0); }
+  80% { clip: rect(70px, 9999px, 100px, 0); }
+  100% { clip: rect(130px, 9999px, 150px, 0); }
+}
+
+@keyframes blink-anim {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes skew-anim {
+  0% { transform: skew(0deg); }
+  20% { transform: skew(-20deg); }
+  22% { transform: skew(20deg); }
+  24% { transform: skew(0deg); }
+  100% { transform: skew(0deg); }
+}
+
+/* Brutalist utility classes */
+.brutalist-box {
+  background: var(--text-color);
+  color: var(--bg-color);
+  padding: 0.2rem 0.5rem;
+  display: inline-block;
+}
+
+/* Glitch Artifacts & Noise */
+.artifact-noise {
+  position: absolute;
+  background: var(--highlight-color);
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+  opacity: 0.3;
+}
+.n1 { top: 30%; right: 10%; width: 200px; height: 2px; animation: glitch-anim-1 3.5s infinite steps(2); }
+.n2 { bottom: 20%; left: 5%; width: 50px; height: 10px; animation: glitch-anim-2 4s infinite linear alternate; }
+
+.code-fragment {
+  position: absolute;
+  font-family: monospace;
+  font-size: 0.6rem;
+  color: var(--accent-color);
+  opacity: 0.6;
+  pointer-events: none;
+  letter-spacing: 0.2rem;
+}
+.c1 { top: 15%; right: 8%; transform: rotate(-90deg); }
+.c2 { top: 45%; left: 8%; animation: blink-anim 0.2s infinite; }
+.c3 { top: 60%; left: 2%; writing-mode: vertical-rl; text-orientation: upright; color: #fff; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    max-width: 100%;
+  }
+  .glitch-text {
+    font-size: 2rem;
+  }
+  .manifesto {
+    margin-right: 0;
+    width: 100%;
+    margin-top: 2rem;
+  }
+}
+
+/* --- GUI OVERLAY STYLES --- */
+
+#gui-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: rgba(5, 0, 5, 0.85); /* Match .hero background */
+    color: var(--text-color);
+    border: 1px solid var(--text-color); /* Match .hero border */
+    padding: 10px 20px;
+    font-family: var(--font-stack);
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 5px 5px 0px rgba(189, 0, 255, 0.2); /* Match .hero shadow style */
+}
+
+#gui-toggle:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+    box-shadow: 2px 2px 0px rgba(189, 0, 255, 0.4);
+}
+
+.gui-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    /* transition removed for instant effect */
+}
+
+.gui-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.gui-content {
+    background: var(--bg-color);
+    padding: 2rem;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    font-family: var(--font-stack);
+}
+
+.close-btn:hover {
+    color: var(--accent-color);
+}
+
+.gui-section {
+    margin-bottom: 2rem;
+}
+
+.gui-section h2 {
+    color: var(--highlight-color);
+    border-bottom: 1px dashed var(--text-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.clean-links {
+    list-style: none;
+    padding: 0;
+}
+
+.clean-links li {
+    margin: 0.5rem 0;
+}
+
+.clean-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    transition: color 0.3s;
+}
+
+.clean-links a:hover {
+    color: var(--highlight-color);
+    text-shadow: 0 0 5px var(--highlight-color);
+}
+
+.wip-link {
+    opacity: 0.5;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+
+
+/* Force button position override inside hero */
+.hero #gui-toggle {
+    position: static;
+    display: block;
+    margin-top: 1.5rem;
+    width: fit-content;
+    z-index: 100 !important;
+}
+
+
+/* Header Group & Button Positioning */
+.header-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.header-group #gui-toggle {
+    margin-top: 0; /* Reset margins */
+    position: static;
+    width: fit-content;
+}

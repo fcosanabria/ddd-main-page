@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Death Disrupt</title>
+    <link rel="stylesheet" href="/src/brute.css" />
+  </head>
+  <body>
+    <div id="glitch-container"></div>
+    
+    <!-- Factory Overlay for decorative industrial UI -->
+    <div class="factory-overlay">
+      <div class="corner top-left"></div>
+      <div class="corner top-right"></div>
+      <div class="corner bottom-left"></div>
+      <div class="corner bottom-right"></div>
+      <div class="scan-line"></div>
+      <div class="side-text left">DROID - V 6.6 // AUTONOMOUS AGENT</div>
+      <div class="side-text right">STATUS: ACTIVE - DEPLOYED >>></div>
+      
+      <!-- Glitch Artifacts -->
+      <div class="artifact-noise n1"></div>
+      <div class="artifact-noise n2"></div>
+      <div class="code-fragment c1">0xDEAD</div>
+      <div class="code-fragment c2">::ERR_VOID::</div>
+      <div class="code-fragment c3">KERNEL PANIC</div>
+    </div>
+
+    <div class="interface-overlay">
+      <div class="header-group">
+      <header class="hero">
+        <div class="hero-decoration"></div>
+        <h1 class="glitch-text" data-text="† DIGITAL DEATH DISRUPT †"><span class="reg-mark">†</span> DIGITAL DEATH DISRUPT <span class="reg-mark">†</span></h1>
+        <div class="hero-grid">
+          <div class="cell">SCHISM DEVELOPMENT</div>
+          <div class="cell">SJ</div>
+          <div class="cell">CR</div>
+          <div class="cell">10804</div>
+          <div class="cell">9.960396 X -83.992282 @ 1508</div>
+
+        </div>
+        <p class="subtitle brutalist-box">CREATIVE CODING / GLITCH ART / GENERATIVE DESIGN</p>
+        <!-- <p class="subtitle brutalist-box">./disrupt.sh: Permission denied</p> -->
+      </header>
+
+      <!-- GUI MODE TOGGLE (Outside header, grouped) -->
+      <button id="gui-toggle" class="glitch-btn" aria-label="Toggle GUI Mode">
+        [ NORMAL_MODE ]
+      </button>
+      </div> <!-- End header-group -->
+
+      <section class="manifesto">
+        <h2 class="scanline-text brutalist-box">SYSTEM STATUS: <span class="blink">CRITICAL</span></h2>
+        <div class="big-number">24/7</div>
+        <div class="content-block">
+          <p class="quote"> EMBRACE THE GLITCH, DISRUPT THE NORM</p>
+          <p class="cursed-text glitch-intense">THIS GIFT IS A CURSE</p>
+          <div class="droid-badge">
+             <span>DEPLOY DROIDS</span>
+             <span class="icon">❋</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Professional Identity Section -->
+      <section class="core-systems">
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <span class="terminal-title">PROTOCOL://ACCESS</span>
+            <div class="terminal-controls">
+              <span class="control-box"></span>
+              <span class="control-box"></span>
+              <span class="control-box"></span>
+            </div>
+          </div>
+          <div class="terminal-body" id="terminal-body" onclick="document.getElementById('cmd-input').focus()">
+             <div id="terminal-output">
+               <p>Welcome to Digital Death Disrupt v6.6.6</p>
+               <p>Type <span style="color: var(--accent-color);">'help'</span> for a list of commands.</p>
+               <br>
+             </div>
+             <div class="input-line">
+               <span class="prompt">root@ddd:~#</span>
+               <span id="cmd-display"></span><span class="blink-cursor">_</span>
+               <input type="text" id="cmd-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="opacity: 0; position: absolute; top: -9999px;">
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="marquee">
+          <span>/// RENDERING FEAR IN REAL TIME /// AUDIO-REACTIVE NIGHTMARES /// PIXEL SORTING YOUR SOUL /// </span>
+        </div>
+        <p class="brutalist-mini">[C] 2026 FACTORY RESET / ON A MISSION</p>
+      </footer>
+    </div>
+    <script type="module" src="/src/script.js"></script>
+
+    <div id="gui-overlay" class="gui-overlay hidden">
+      <div class="gui-content">
+        <button id="gui-close" class="close-btn">X</button>
+        
+        <div class="gui-section">
+          <h2>PROFESSIONAL</h2>
+          <ul class="clean-links">
+            <li><a href="https://linkedin.com/in/tu-perfil" target="_blank">LinkedIn :: Corporate_Identity</a></li>
+            <li><a href="https://github.com/tu-usuario" target="_blank">GitHub :: Source_Code</a></li>
+            <li><a href="mailto:tu@email.com">Email :: Contact_Protocol</a></li>
+          </ul>
+        </div>
+
+        <div class="gui-section">
+          <h2>CREATIVE</h2>
+          <ul class="clean-links">
+            <li><a href="#" class="wip-link">Generative_Art</a></li>
+            <li><a href="#" class="wip-link">Audio_Visuals</a></li>
+            <li><a href="#" class="wip-link">Experiments</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
