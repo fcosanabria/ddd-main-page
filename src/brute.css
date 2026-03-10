@@ -679,3 +679,26 @@ h1, h2, h3, p {
     position: static;
     width: fit-content;
 }
+
+/* Gloom Overlay Global Filter */
+.gloom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  /* Lighter Gloom: Reduced blur for performance, adjusted brightness/contrast */
+  backdrop-filter: brightness(0.8) contrast(1.1) sepia(0.1);
+  /* Lighter Vignette: larger transparent center, less opaque edges */
+  background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%);
+  mix-blend-mode: multiply;
+  opacity: 1;
+  animation: gloom-pulse 10s infinite alternate;
+}
+
+@keyframes gloom-pulse {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
