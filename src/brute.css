@@ -462,13 +462,139 @@ h1, h2, h3, p {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero {
-    max-width: 100%;
-  }
-  .glitch-text {
-    font-size: 2rem;
+  body, html {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100%;
   }
 
+  .interface-overlay {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 1rem;
+  }
+
+  .hero {
+    max-width: 100%;
+    padding: 1rem;
+    box-shadow: 5px 5px 0px rgba(189, 0, 255, 0.2);
+  }
+
+  .glitch-text {
+    font-size: 1.4rem;
+    word-break: break-word;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    font-size: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.65rem;
+  }
+
+  /* Hide decorative side text and code fragments on mobile */
+  .side-text,
+  .code-fragment,
+  .artifact-noise {
+    display: none;
+  }
+
+  .corner {
+    width: 12px;
+    height: 12px;
+  }
+  .top-left { top: 8px; left: 8px; }
+  .top-right { top: 8px; right: 8px; }
+  .bottom-left { bottom: 8px; left: 8px; }
+  .bottom-right { bottom: 8px; right: 8px; }
+
+  /* Terminal: make it flow normally instead of absolute */
+  .core-systems {
+    position: relative;
+    padding-left: 0;
+    padding-bottom: 0;
+    margin-top: 1.5rem;
+  }
+
+  .terminal-window {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .terminal-body {
+    padding: 10px;
+    font-size: 0.7rem;
+    max-height: 45vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .input-line {
+    font-size: 0.7rem;
+  }
+
+  /* Footer */
+  .footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    padding-top: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .marquee {
+    max-width: 100%;
+  }
+
+  /* GUI Toggle */
+  #gui-toggle {
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    font-size: 0.7rem;
+  }
+
+  .header-group {
+    padding-right: 0;
+  }
+
+  /* GUI Overlay */
+  .gui-content {
+    width: 95%;
+    padding: 1.5rem 1rem;
+    max-height: 85vh;
+    max-height: 85dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .clean-links a {
+    font-size: 1rem;
+  }
+
+  /* Factory overlay padding */
+  .factory-overlay {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .glitch-text {
+    font-size: 1.1rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .interface-overlay {
+    padding: 0.75rem;
+  }
 }
 
 /* --- GUI OVERLAY STYLES --- */

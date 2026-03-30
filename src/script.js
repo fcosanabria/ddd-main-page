@@ -176,6 +176,8 @@ function animate() {
 
 // Window resize handling
 window.addEventListener('resize', () => {
+    windowHalfX = window.innerWidth / 2;
+    windowHalfY = window.innerHeight / 2;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -185,14 +187,20 @@ window.addEventListener('resize', () => {
 // Interactive Mouse Movement
 const mouse = new THREE.Vector2();
 const targetRotation = new THREE.Vector2();
-const windowHalfX = window.innerWidth / 2;
-const windowHalfY = window.innerHeight / 2;
+let windowHalfX = window.innerWidth / 2;
+let windowHalfY = window.innerHeight / 2;
 
 document.addEventListener('mousemove', (event) => {
     mouse.x = (event.clientX - windowHalfX);
     mouse.y = (event.clientY - windowHalfY);
 });
 
+document.addEventListener('touchmove', (event) => {
+    if (event.touches.length > 0) {
+        mouse.x = (event.touches[0].clientX - windowHalfX);
+        mouse.y = (event.touches[0].clientY - windowHalfY);
+    }
+}, { passive: true });
 
 animate();
 
@@ -391,6 +399,10 @@ if (cmdInput) {
 
     // Keep focus
     terminalBody.addEventListener('click', () => {
+        cmdInput.focus();
+    });
+    terminalBody.addEventListener('touchend', (e) => {
+        e.preventDefault();
         cmdInput.focus();
     });
     // Initial focus
