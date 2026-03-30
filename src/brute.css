@@ -296,39 +296,7 @@ body::before {
   padding-top: 5px;
 }
 
-.big-number {
-  font-size: 6rem;
-  font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--accent-color);
-  line-height: 0.8;
-  opacity: 0.8;
-  margin-bottom: -1rem;
-  text-align: right;
-  mix-blend-mode: color-dodge;
-}
 
-.droid-badge {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--highlight-color);
-  color: var(--bg-color);
-  padding: 0.5rem;
-  margin-top: 1rem;
-  font-weight: bold;
-  border: 1px solid var(--text-color);
-  font-size: 0.8rem;
-}
-
-.droid-badge .icon {
-  font-size: 1.5rem;
-  animation: spin 4s linear infinite;
-}
-
-@keyframes spin { 
-  100% { transform: rotate(360deg); } 
-}
 
 /* Typography Overrides */
 h1, h2, h3, p {
@@ -340,7 +308,7 @@ h1, h2, h3, p {
 .hero {
   border: 1px solid var(--text-color);
   padding: 1.5rem;
-  background: rgba(5, 0, 5, 0.85); /* Darker purple tint */
+  background: transparent;
   max-width: 600px;
   position: relative;
   box-shadow: 10px 10px 0px rgba(189, 0, 255, 0.2);
@@ -385,13 +353,7 @@ h1, h2, h3, p {
   color: var(--bg-color);
 }
 
-/* Content Block Layout */
-.content-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
-}
+
 
 /* Subtitle */
 .subtitle {
@@ -401,41 +363,8 @@ h1, h2, h3, p {
   padding-top: 0.5rem;
 }
 
-/* Manifesto Section */
-.manifesto {
-  align-self: flex-end;
-  text-align: right;
-  border-left: 5px solid var(--accent-color);
-  padding-left: 1rem;
-  background: rgba(0, 0, 0, 0.8);
-  margin-right: 10%;
-}
-
-.scanline-text {
-  font-size: 1.5rem;
-  color: var(--accent-color);
-  margin-bottom: 0.5rem;
-}
-
 .blink {
   animation: blink-anim 1s step-end infinite;
-}
-
-.quote {
-  font-size: 1.2rem;
-  font-style: italic;
-  margin-bottom: 1rem;
-}
-
-.cursed-text {
-  font-size: 1rem;
-  color: var(--highlight-color);
-  opacity: 0.8;
-  filter: blur(0.5px);
-}
-
-.glitch-intense {
-  animation: skew-anim 3s infinite;
 }
 
 /* Footer */
@@ -528,6 +457,8 @@ h1, h2, h3, p {
 .c1 { top: 15%; right: 8%; transform: rotate(-90deg); }
 .c2 { top: 45%; left: 8%; animation: blink-anim 0.2s infinite; }
 .c3 { top: 60%; left: 2%; writing-mode: vertical-rl; text-orientation: upright; color: #fff; }
+.c4 { bottom: 35%; right: 3%; writing-mode: vertical-rl; opacity: 0.3; font-size: 0.85rem; color: #fff; }
+.c5 { bottom: 12%; left: 12%; opacity: 0.25; font-size: 0.85rem; transform: rotate(-2deg); color: #fff; letter-spacing: 0.3rem; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -537,11 +468,7 @@ h1, h2, h3, p {
   .glitch-text {
     font-size: 2rem;
   }
-  .manifesto {
-    margin-right: 0;
-    width: 100%;
-    margin-top: 2rem;
-  }
+
 }
 
 /* --- GUI OVERLAY STYLES --- */
